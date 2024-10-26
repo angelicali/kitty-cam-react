@@ -1,26 +1,41 @@
 import Video from './Video';
-import { Container } from "@mui/material";
-import Stack from '@mui/material/Stack';
-import VideoAdminTools from './VideoAdminTools';
+import { Button } from '@mui/material';
+import VideoHeader from './VideoHeader';
+import { useQuery } from '@tanstack/react-query';
+import { useState } from 'react';
+import Loading from './Loading';
 
 export default function VideoGallery({ backendUrl, adminMode }) {
-    const videos = [
-        { filename: '20241025102841.mp4' },
-        { filename: '20241025074128.mp4' },
-    ];
+    const [numVideos, setNumVideos] = useState(6);
+
+    const { isPending, error, data } = useQuery({
+        queryKey: ['videoMetadata'],
+        queryFn: () => fetch(`${backendUrl}past-visits`).then((res) => res.json(),),
+    })
+
+    if (isPending) return <Loading />;
+
+    if (error) return 'An error has occurred: ' + error.message;
+
+
     return <>
-        <Container sx={{ display: 'flex', justifyContent: 'center' }}>
-            <Stack spacing={3}>
-                {videos.map((video) => {
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '2em' }}>
+            <div style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap' }}>
+                {data.slice(0, numVideos).map(([timestamp, videoId]) => {
                     return (
-                        <>
-                            <Video key={video.filename} videoUrl={backendUrl + 'video/' + video.filename}></Video>
-                            {adminMode && <VideoAdminTools key={video.filename + 'admin'} videoFilename={video.filename}/>}
-                        </>)
+                        <div style={{margin: '.5em'}}>
+                            <VideoHeader key={videoId + '-header'} timestamp={timestamp} adminMode={adminMode} videoId={videoId} />
+                            <Video key={videoId} videoUrl={backendUrl + 'video/' + videoId + '.mp4'} />
+                        </div>)
                 }
                 )}
-                <p>End of stack</p>
-            </Stack>
-        </Container>
+            </div>
+        </div>
+        <div style={{ display: 'flex', justifyContent: 'center', marginTop: '1em' }}>
+            <Button variant="contained" color="secondary" onClick={() => {
+                setNumVideos(numVideos => numVideos + 6);
+            }}>Load more</Button>
+        </div>
+
     </>
 };

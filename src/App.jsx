@@ -6,6 +6,10 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import LivestreamPage from "./pages/LivestreamPage";
 import Layout from "./Layout";
 import VideoGalleryPage from './pages/VideoGalleryPage';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
+const queryClient = new QueryClient()
+
 
 export default function App() {
     // Adds a context for source url?
@@ -15,30 +19,15 @@ export default function App() {
 
 
     return (
-        <BrowserRouter>
-            <Routes>
-                <Route path="/" element={<Layout />}>
-                    <Route index element={<LivestreamPage backendUrl={backendUrl} />} />
-                    <Route path="/past-visits" element={<VideoGalleryPage backendUrl={backendUrl} />} />
-                </Route>
-            </Routes>
-        </BrowserRouter>
-
-        // <ThemeProvider theme={theme}>
-        //     <Box sx={{ flexGrow: 1 }}>
-        //         <AppBar position="static">
-                    // <Toolbar>
-                    //     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                    //         Kitty Cam
-                    //     </Typography>
-                    //     <Button color="inherit">View Past Visits</Button>
-                    // </Toolbar>
-        //         </AppBar>
-        //         {/* <h1>Kitty Cam!!</h1> */}
-        //         <Livestream livestreamUrl={backendUrl + 'video_feed'} />
-        //         {/* <VideoGallery backendUrl={backendUrl} /> */}
-        //     </Box>
-        // </ThemeProvider>
-
+        <QueryClientProvider client={queryClient}>
+            <BrowserRouter>
+                <Routes>
+                    <Route path="/" element={<Layout />}>
+                        <Route index element={<LivestreamPage backendUrl={backendUrl} />} />
+                        <Route path="/past-visits" element={<VideoGalleryPage backendUrl={backendUrl} />} />
+                    </Route>
+                </Routes>
+            </BrowserRouter>
+        </QueryClientProvider>
     );
 }
