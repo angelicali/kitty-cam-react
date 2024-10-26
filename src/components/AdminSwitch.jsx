@@ -1,4 +1,4 @@
-import { Switch } from "@mui/material";
+import { Switch, Typography } from "@mui/material";
 
 export default function AdminSwitch({onToggle}) {
     return (
@@ -10,7 +10,9 @@ export default function AdminSwitch({onToggle}) {
             <Switch 
                 defaultChecked={false}
                 onChange={onToggle}
-                /> Admin
+                // edge='end'
+                /> 
+            <Typography variant="body2" display="inline">Admin</Typography>
         </div>
     )
 }
