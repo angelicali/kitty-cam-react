@@ -3,16 +3,16 @@ import { IconButton, Typography } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 import InfoIcon from '@mui/icons-material/Info';
 import IconButton from '@mui/material/IconButton';
-import { Popper } from '@mui/base/Popper';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
+import Popper from '@mui/material/Popper';
+import VideoLogCard from "./VideoLogCard";
 
-export default function VideoHeader({ timestamp, videoId, adminMode, onDelete }) {
+export default function VideoHeader({ timestamp, videoId, adminMode, onDelete, backendUrl }) {
     const [anchor, setAnchor] = useState(false);
 
     const handleInfoClick = (event) => {
         setAnchor(anchor ? null : event.currentTarget);
     };
+
     return (
         <>
             <div className="video-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -34,22 +34,8 @@ export default function VideoHeader({ timestamp, videoId, adminMode, onDelete })
                 </>
                 )}
             </div>
-            <Popper id={videoId + '-info'} open={Boolean(anchor)} anchorEl={anchor} placement="right">
-                <Card>
-                    <CardContent style={{ maxHeight: '200px', maxWidth: '300px', overflowY: 'auto' }}>
-                    long text that may exceed the height of the card content...
-                    long text that may exceed the height of the card content...
-                    long text that may exceed the height of the card content...
-                    long text that may exceed the height of the card content...
-                    long text that may exceed the height of the card content...
-                    long text that may exceed the height of the card content...
-                    long text that may exceed the height of the card content...
-                    long text that may exceed the height of the card content...
-                    long text that may exceed the height of the card content...
-                    long text that may exceed the height of the card content...
-                    long text that may exceed the height of the card content...
-                    </CardContent>
-                </Card>
+            <Popper id={videoId + '-info'} open={Boolean(anchor)} anchorEl={anchor} placement="right-start">
+                  <VideoLogCard backendUrl={backendUrl} videoId={videoId}/>
             </Popper>
         </>
     )

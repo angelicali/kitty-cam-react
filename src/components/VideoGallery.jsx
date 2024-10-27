@@ -30,7 +30,13 @@ export default function VideoGallery({ data, backendUrl, adminMode }) {
                 {videos.slice(0, numVideos).map(([timestamp, videoId]) => {
                     return (
                         <div key={videoId + '-container'} style={{ margin: '.5em' }}>
-                            <VideoHeader key={videoId + '-header'} timestamp={timestamp} adminMode={adminMode} videoId={videoId} onDelete={handleDelete} />
+                            <VideoHeader 
+                                key={videoId + '-header'} 
+                                timestamp={timestamp} 
+                                adminMode={adminMode} 
+                                videoId={videoId} 
+                                onDelete={handleDelete}
+                                backendUrl={backendUrl} />
                             <Video key={videoId} videoUrl={backendUrl + 'video/' + videoId + '.mp4'} />
                         </div>)
                 }

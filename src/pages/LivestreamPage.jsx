@@ -29,7 +29,7 @@ export default function LivestreamPage({ backendUrl }) {
     return <>
         <Container maxWidth="lg" sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '80%%' }}>
             <Livestream livestreamUrl={backendUrl + 'video_feed'} />
-            <Button
+            {typeof documentPictureInPicture !== 'undefined' && <Button
                 onClick={openPip}
                 sx={{ marginTop: '1em' }}
                 variant="contained"
@@ -38,7 +38,7 @@ export default function LivestreamPage({ backendUrl }) {
                 disabled={isPipOpen} 
             >
                 View in floating window
-            </Button>
+            </Button>}
         </Container>
 
     </>

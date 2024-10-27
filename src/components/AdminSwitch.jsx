@@ -6,13 +6,17 @@ export default function AdminSwitch({onToggle}) {
             position: 'fixed',
             bottom: '20px',
             right: '20px',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center'
         }}>
             <Switch 
                 defaultChecked={false}
                 onChange={onToggle}
-                // edge='end'
+                size="small"
                 /> 
-            <Typography variant="body2" display="inline">Admin</Typography>
+            <Typography variant="body2">Admin</Typography>
         </div>
     )
 }
