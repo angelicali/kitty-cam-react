@@ -2,10 +2,18 @@ import Video from './Video';
 import { Button } from '@mui/material';
 import VideoHeader from './VideoHeader';
 import { useState } from 'react';
+import { Snackbar } from '@mui/material';
 
 export default function VideoGallery({ data, backendUrl, adminMode }) {
     const [numVideos, setNumVideos] = useState(6);
     const [videos, setVideos] = useState(data);
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState("");
+
+    const handleSnackbarClose = (event, reason) => {
+        console.log(`snackbar close reason: ${reason}`);
+        setSnackbarOpen(false);
+    }
 
     const handleDelete = async (videoId) => {
         try {
@@ -15,9 +23,14 @@ export default function VideoGallery({ data, backendUrl, adminMode }) {
 
             if (response.ok) {
                 setVideos(videos.filter(([_, id]) => id !== videoId));
-                // TODO: add snackbar for video deletion success
+                setSnackbarMessage("Video deleted");
+                setSnackbarOpen(true);
+            } else if (response.status === 403) {
+                setSnackbarMessage("Error: You're not authorized to delete videos.");
+                setSnackbarOpen(true);
             } else {
-                alert('Failed to delete video');
+                setSnackbarMessage("Failed to delete video.");
+                setSnackbarOpen(true);
             }
         } catch (error) {
             console.error('An error occurred:', error);
@@ -48,6 +61,7 @@ export default function VideoGallery({ data, backendUrl, adminMode }) {
                 setNumVideos(numVideos => numVideos + 6);
             }}>Load more</Button>
         </div>
+        <Snackbar open={snackbarOpen} autoHideDuration={6000} onClose={handleSnackbarClose} message={snackbarMessage}/>
 
     </>
 };
