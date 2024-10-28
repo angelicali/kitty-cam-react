@@ -34,7 +34,11 @@ const xLabels = [
 export default function AnalyticsActiveHourTab({backendUrl}) {
     const { isPending, error, data } = useQuery({
         queryKey: ['activeHours'],
-        queryFn: () => fetch(`${backendUrl}active-hour`).then((res) => res.json(),),
+        queryFn: () => fetch(`${backendUrl}active-hour`, {
+            headers: new Headers({
+                "ngrok-skip-browser-warning": "1234",
+            })
+        }).then((res) => res.json(),),
         staleTime: 1000 * 60 * 60, // 1 hour
         cacheTime: 1000 * 60 * 60 // cache for 1 hour
     })

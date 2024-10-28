@@ -17,7 +17,11 @@ export default function VideoGalleryPage({ backendUrl }) {
 
     const { isPending, error, data } = useQuery({
         queryKey: ['videoMetadata'],
-        queryFn: () => fetch(`${backendUrl}past-visits`).then((res) => res.json(),),
+        queryFn: () => fetch(`${backendUrl}past-visits`, {
+            headers: new Headers({
+                "ngrok-skip-browser-warning": "1234",
+            })
+        }).then((res) => res.json(),),
     })
 
     if (isPending) return <Loading />;
@@ -30,7 +34,7 @@ export default function VideoGalleryPage({ backendUrl }) {
             <VideoGallery data={data} backendUrl={backendUrl} adminMode={adminMode} />
             <AdminSwitch onToggle={onAdminToggle} />
             {adminMode && <AnalyticsButton onClick={() => setAnalyticsModalOpen(true)} />}
-             <AnalyticsModal open={analyticsModalOpen} handleClose={()=>setAnalyticsModalOpen(false)} backendUrl={backendUrl}/>
+            <AnalyticsModal open={analyticsModalOpen} handleClose={() => setAnalyticsModalOpen(false)} backendUrl={backendUrl} />
         </Container>
     )
 }

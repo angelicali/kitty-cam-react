@@ -7,7 +7,11 @@ import Loading from "./Loading";
 export default function AnalyticsLocationTab({ backendUrl }) {
     const { isPending, error, data } = useQuery({
         queryKey: ['boxLocations'],
-        queryFn: () => fetch(`${backendUrl}locations/all`).then((res) => res.json(),),
+        queryFn: () => fetch(`${backendUrl}locations/all`, {
+            headers: new Headers({
+                "ngrok-skip-browser-warning": "1234",
+            })
+        }).then((res) => res.json(),),
         staleTime: 1000 * 60, // 1 minute
         cacheTime: 1000 * 60 // cache for 1 minute
     })

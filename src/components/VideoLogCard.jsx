@@ -5,7 +5,11 @@ import CardContent from '@mui/material/CardContent';
 import { useQuery } from '@tanstack/react-query';
 
 const fetchVideoLogs = async (videoId, backendUrl) => {
-    const response = await fetch(`${backendUrl}video-log/${videoId}`);
+    const response = await fetch(`${backendUrl}video-log/${videoId}`, {
+        headers: new Headers({
+            "ngrok-skip-browser-warning": "1234",
+        }),
+    });
     if (response.status === 404) {
         throw new Error('Logs not found (404)');
     }
@@ -14,7 +18,7 @@ const fetchVideoLogs = async (videoId, backendUrl) => {
 }
 
 export default function VideoLogCard({ videoId, backendUrl }) {
-    const { isLoading, error, data, isError} = useQuery({
+    const { isLoading, error, data, isError } = useQuery({
         queryKey: ['videoLogs-' + videoId],
         queryFn: () => fetchVideoLogs(videoId, backendUrl),
         onError: (error) => {
