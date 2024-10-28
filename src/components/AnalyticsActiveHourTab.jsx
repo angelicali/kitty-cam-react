@@ -1,6 +1,8 @@
 // import * as React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { BarChart } from '@mui/x-charts/BarChart';
+import { objectColors as colors } from '../utils/configs';
+import Loading from "./Loading";
 
 const xLabels = [
     '12 AM',
@@ -33,10 +35,11 @@ export default function AnalyticsActiveHourTab({backendUrl}) {
     const { isPending, error, data } = useQuery({
         queryKey: ['activeHours'],
         queryFn: () => fetch(`${backendUrl}active-hour`).then((res) => res.json(),),
+        staleTime: 1000 * 60 * 60, // 1 hour
         cacheTime: 1000 * 60 * 60 // cache for 1 hour
     })
 
-    if (isPending) return "Loading"
+    if (isPending) return <Loading />
 
     if (error) return 'An error has occurred: ' + error.message;
 
@@ -45,10 +48,10 @@ export default function AnalyticsActiveHourTab({backendUrl}) {
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
             <BarChart
                 series={[
-                    { data: data.cat, label: 'cat' },
-                    { data: data.possum, label: 'possum' },
-                    { data: data.raccoon, label: 'raccoon' },
-                    { data: data.person, label: 'human' },
+                    { data: data.cat, label: 'cat', color: colors.cat },
+                    { data: data.raccoon, label: 'raccoon', color: colors.raccoon },
+                    { data: data.possum, label: 'possum', color: colors.possum },
+                    { data: data.person, label: 'human', color: colors.person },
                 ]}
                 xAxis={[{ data: xLabels, scaleType: 'band' }]}
                 width={680}

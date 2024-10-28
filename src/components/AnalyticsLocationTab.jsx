@@ -1,19 +1,14 @@
 import { useState, useRef, useEffect } from "react";
 import { Typography } from "@mui/material";
 import { useQuery } from '@tanstack/react-query';
+import { objectColors as colors } from '../utils/configs';
+import Loading from "./Loading";
 
-const colors = {
-    cat: 'skyblue',
-    raccoon: 'red',
-    possum: 'orange',
-    person: 'purple'
-};
-
-
-export default function AnalyticsLocationTab({backendUrl}) {
+export default function AnalyticsLocationTab({ backendUrl }) {
     const { isPending, error, data } = useQuery({
         queryKey: ['boxLocations'],
         queryFn: () => fetch(`${backendUrl}locations/all`).then((res) => res.json(),),
+        staleTime: 1000 * 60, // 1 minute
         cacheTime: 1000 * 60 // cache for 1 minute
     })
 
@@ -26,7 +21,7 @@ export default function AnalyticsLocationTab({backendUrl}) {
         person: false
     });
 
-    useEffect(()=>{
+    useEffect(() => {
         if (!canvasRef.current) return;
 
         const canvas = canvasRef.current;
@@ -35,14 +30,14 @@ export default function AnalyticsLocationTab({backendUrl}) {
             const scaleX = canvas.width / 640;
             const scaleY = canvas.height / 480;
 
-            ctx.clearRect(0,0, canvas.width, canvas.height);
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
 
             const drawLocations = (locations, color) => {
                 ctx.strokeStyle = color;
                 ctx.lineWidth = 1;
-                locations.forEach(({box: {x1, x2, y1, y2}, confidence: confidence}) => {
+                locations.forEach(({ box: { x1, x2, y1, y2 }, confidence: confidence }) => {
                     ctx.globalAlpha = confidence * 0.5;
-                    ctx.strokeRect(x1 * scaleX, y1*scaleY, (x2-x1) *scaleX, (y2-y1)*scaleY); 
+                    ctx.strokeRect(x1 * scaleX, y1 * scaleY, (x2 - x1) * scaleX, (y2 - y1) * scaleY);
                 })
             };
 
@@ -58,32 +53,32 @@ export default function AnalyticsLocationTab({backendUrl}) {
     }, [visibility]);
 
     const handleCheckboxChange = (objectType) => {
-        setVisibility(prev => ({...prev, [objectType]: !prev[objectType]}));
+        setVisibility(prev => ({ ...prev, [objectType]: !prev[objectType] }));
     };
 
 
-    if (isPending) return "Loading"
+    if (isPending) return <Loading />
 
     if (error) return 'An error has occurred: ' + error.message;
 
 
     return (
         <div className="panel" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', height: '100%' }}>
-            <div className="panelHeader" style={{ width: '80%', display: 'flex', alignItems: 'flex-end', justifyContent: 'center', gap: '0.5em', height: '6%'}}>
+            <div className="panelHeader" style={{ width: '80%', display: 'flex', alignItems: 'flex-end', justifyContent: 'center', gap: '0.5em', height: '6%' }}>
                 <span>
-                    <input type="checkbox" checked={visibility.cat} onChange={() => handleCheckboxChange('cat')} style={{accentColor: colors.cat}}/>
+                    <input type="checkbox" checked={visibility.cat} onChange={() => handleCheckboxChange('cat')} style={{ accentColor: colors.cat }} />
                     <Typography display="inline">Cat</Typography>
                 </span>
                 <span>
-                    <input type="checkbox" checked={visibility.raccoon} onChange={() => handleCheckboxChange('raccoon')} style={{accentColor: colors.raccoon}}/>
+                    <input type="checkbox" checked={visibility.raccoon} onChange={() => handleCheckboxChange('raccoon')} style={{ accentColor: colors.raccoon }} />
                     <Typography display="inline">Raccoon</Typography>
                 </span>
                 <span>
-                    <input type="checkbox" checked={visibility.possum} onChange={() => handleCheckboxChange('possum')} style={{accentColor: colors.possum}}/>
+                    <input type="checkbox" checked={visibility.possum} onChange={() => handleCheckboxChange('possum')} style={{ accentColor: colors.possum }} />
                     <Typography display="inline">Possum</Typography>
                 </span>
                 <span>
-                    <input type="checkbox" checked={visibility.person} onChange={() => handleCheckboxChange('person')} style={{accentColor: colors.person}} />
+                    <input type="checkbox" checked={visibility.person} onChange={() => handleCheckboxChange('person')} style={{ accentColor: colors.person }} />
                     <Typography display="inline">Human</Typography>
                 </span>
             </div>
@@ -91,7 +86,7 @@ export default function AnalyticsLocationTab({backendUrl}) {
                 width: '100%', maxWidth: 640, height: '75vw', maxHeight: 480,
                 border: '1px solid black', backgroundColor: 'white'
             }}>
-                <canvas ref={canvasRef} width={640} height={480} style={{width: '100%', height: '100%'}} />
+                <canvas ref={canvasRef} width={640} height={480} style={{ width: '100%', height: '100%' }} />
             </div>
         </div>
     )

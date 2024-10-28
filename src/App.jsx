@@ -14,7 +14,7 @@ const queryClient = new QueryClient()
 export default function App() {
     // Adds a context for source url?
     // const backendUrlContext = createContext("http://192.168.4.201:5000/")
-    const backendUrl = "http://192.168.4.201:5000/";
+    const backendUrl = "https://proud-cheerful-longhorn.ngrok-free.app/";
 
 
 

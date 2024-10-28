@@ -26,7 +26,7 @@ export default function Layout() {
                 }
             }}>
                 <div style={{ flexGrow: 1, display: 'flex', alignItems: 'center' }}>
-                    <img src={logo} style={{ height: '3em', width: '3em' }} />
+                    <img src={logo} style={{ height: '3em', width: '3em', marginRight: '0.5em' }} />
                     <Typography variant="h5">Whisker Watch</Typography>
                 </div>
 
