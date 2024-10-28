@@ -1,12 +1,11 @@
 // import { Link as RouterLink, MemoryRouter } from 'react-router-dom';
 import { Link } from "@mui/material";
-import { AppBar } from "@mui/material";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Outlet } from 'react-router-dom';
-import { Box, AppBar, Toolbar, Typography, Button, IconButton } from "@mui/material";
+import {  Toolbar, Typography } from "@mui/material";
 import { useLocation } from 'react-router-dom';
 import { blueGrey, purple, pink, amber } from "@mui/material/colors";
-import logo from './logo.svg';
+// import logo from './logo.svg';
 
 export default function Layout() {
     const theme = createTheme({
@@ -26,7 +25,7 @@ export default function Layout() {
                 }
             }}>
                 <div style={{ flexGrow: 1, display: 'flex', alignItems: 'center' }}>
-                    <img src={logo} style={{ height: '3em', width: '3em', marginRight: '0.5em' }} />
+                    <img src='/logo.svg' style={{ height: '3em', width: '3em', marginRight: '0.5em' }} />
                     <Typography variant="h5">Whisker Watch</Typography>
                 </div>
 

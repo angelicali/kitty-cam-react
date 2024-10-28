@@ -1,7 +1,3 @@
-import Livestream from "./components/Livestream";
-import VideoGallery from "./components/VideoGallery";
-import { Box, AppBar, Toolbar, Typography, Button, IconButton } from "@mui/material";
-// import MenuIcon from '@mui/icons-material/Menu';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import LivestreamPage from "./pages/LivestreamPage";
 import Layout from "./Layout";
@@ -12,12 +8,7 @@ const queryClient = new QueryClient()
 
 
 export default function App() {
-    // Adds a context for source url?
-    // const backendUrlContext = createContext("http://192.168.4.201:5000/")
-    const backendUrl = "https://proud-cheerful-longhorn.ngrok-free.app/";
-
-
-
+    const backendUrl = process.env.REACT_APP_BACKEND_URL;
     return (
         <QueryClientProvider client={queryClient}>
             <BrowserRouter>
