@@ -12,8 +12,8 @@ export default function AnalyticsLocationTab({ backendUrl }) {
                 "ngrok-skip-browser-warning": "1234",
             })
         }).then((res) => res.json(),),
-        staleTime: 1000 * 60, // 1 minute
-        cacheTime: 1000 * 60 // cache for 1 minute
+        staleTime: 1000 * 60 * 60, // 1 hour is fresh enough
+        cacheTime: 1000 * 60 * 60 * 24 * 7, // 7 days
     })
 
 

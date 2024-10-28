@@ -25,8 +25,7 @@ export default function VideoLogCard({ videoId, backendUrl }) {
             console.error('React Query Error:', error);
         },
         staleTime: Infinity,
-        cacheTime: 1000 * 60 * 30 // cache for 30 minutes
-        // cacheTime: 1000 * 60 * 60 * 24 * 10 // cache for 10 days; probably won't view video logs from 10 days ago
+        cacheTime: 1000 * 60 * 60 * 24 * 10 // cache for 10 days; probably won't view video logs from 10 days ago
     });
 
 

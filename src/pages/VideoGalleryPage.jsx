@@ -21,7 +21,9 @@ export default function VideoGalleryPage({ backendUrl }) {
             headers: new Headers({
                 "ngrok-skip-browser-warning": "1234",
             })
-        }).then((res) => res.json(),),
+        },).then((res) => res.json(),),
+        staleTime: 1000 * 60 , // 1 minute
+        cacheTime: 1000 * 60 * 60 * 24 * 7, // 7 days
     })
 
     if (isPending) return <Loading />;

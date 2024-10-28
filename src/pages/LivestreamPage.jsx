@@ -4,7 +4,6 @@ import { Container, Button } from "@mui/material";
 import PictureInPictureAltIcon from '@mui/icons-material/PictureInPictureAlt';
 
 export default function LivestreamPage({ backendUrl }) {
-    // const [isPipSupported, setIsPipSupported] = useState(false);
     const [isPipOpen, setIsPipOpen] = useState(false);
 
     const openPip = async () => {

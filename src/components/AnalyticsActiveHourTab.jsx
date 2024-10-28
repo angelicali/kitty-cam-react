@@ -40,7 +40,7 @@ export default function AnalyticsActiveHourTab({backendUrl}) {
             })
         }).then((res) => res.json(),),
         staleTime: 1000 * 60 * 60, // 1 hour
-        cacheTime: 1000 * 60 * 60 // cache for 1 hour
+        cacheTime: 1000 * 60 * 60 * 24 * 7 // cache for 7 days
     })
 
     if (isPending) return <Loading />
