@@ -29,9 +29,6 @@ export default function Layout() {
                     <img src={logo} style={{ height: '3em', width: '3em' }} />
                     <Typography variant="h5">Whisker Watch</Typography>
                 </div>
-                {/* <Typography variant="h4" display="inline" gutterBottom sx={{ flexGrow: 1 }}>
-                    Whisker Watch 
-                </Typography> */}
 
                 {location.pathname === '/' ? (<>
                     <Typography variant="h6">Livestream</Typography>

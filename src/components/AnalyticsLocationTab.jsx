@@ -5,8 +5,8 @@ import { useQuery } from '@tanstack/react-query';
 const colors = {
     cat: 'skyblue',
     raccoon: 'red',
-    possum: 'lime',
-    person: 'orange'
+    possum: 'orange',
+    person: 'purple'
 };
 
 
@@ -20,7 +20,7 @@ export default function AnalyticsLocationTab({backendUrl}) {
 
     const canvasRef = useRef(null);
     const [visibility, setVisibility] = useState({
-        cat: true,
+        cat: false,
         raccoon: false,
         possum: false,
         person: false
