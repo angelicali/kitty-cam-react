@@ -22,7 +22,6 @@ export default function AnalyticsLocationTab({ backendUrl }) {
         cat: false,
         raccoon: false,
         possum: false,
-        person: false
     });
 
     useEffect(() => {
@@ -48,7 +47,6 @@ export default function AnalyticsLocationTab({ backendUrl }) {
             if (visibility.possum) drawLocations(data.possum, colors.possum);
             if (visibility.cat) drawLocations(data.cat, colors.cat);
             if (visibility.raccoon) drawLocations(data.raccoon, colors.raccoon);
-            if (visibility.person) drawLocations(data.person, colors.person);
         };
 
         handleResizeAndDraw();
@@ -80,10 +78,6 @@ export default function AnalyticsLocationTab({ backendUrl }) {
                 <span>
                     <input type="checkbox" checked={visibility.possum} onChange={() => handleCheckboxChange('possum')} style={{ accentColor: colors.possum }} />
                     <Typography display="inline">Possum</Typography>
-                </span>
-                <span>
-                    <input type="checkbox" checked={visibility.person} onChange={() => handleCheckboxChange('person')} style={{ accentColor: colors.person }} />
-                    <Typography display="inline">Human</Typography>
                 </span>
             </div>
             <div style={{

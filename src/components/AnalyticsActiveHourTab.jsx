@@ -55,7 +55,6 @@ export default function AnalyticsActiveHourTab({backendUrl}) {
                     { data: data.cat, label: 'cat', color: colors.cat },
                     { data: data.raccoon, label: 'raccoon', color: colors.raccoon },
                     { data: data.possum, label: 'possum', color: colors.possum },
-                    { data: data.person, label: 'human', color: colors.person },
                 ]}
                 xAxis={[{ data: xLabels, scaleType: 'band' }]}
                 width={680}
