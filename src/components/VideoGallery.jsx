@@ -4,6 +4,16 @@ import VideoHeader from './VideoHeader';
 import { useState } from 'react';
 import { Snackbar } from '@mui/material';
 
+function videoIdToTimestr(videoId) {
+    const year = parseInt(videoId.slice(0, 4), 10);
+    const month = parseInt(videoId.slice(4, 6), 10);
+    const day = parseInt(videoId.slice(6, 8), 10);
+    const hour = parseInt(videoId.slice(8, 10), 10);
+    const minute = parseInt(videoId.slice(10, 12), 10);
+  
+    return `${year}/${month}/${day} ${hour}:${minute}`;
+}
+
 export default function VideoGallery({ data, backendUrl, adminMode }) {
     const [numVideos, setNumVideos] = useState(6);
     const [videos, setVideos] = useState(data);
@@ -45,7 +55,7 @@ export default function VideoGallery({ data, backendUrl, adminMode }) {
                         <div key={videoId + '-container'} style={{ margin: '.5em' }}>
                             <VideoHeader 
                                 key={videoId + '-header'} 
-                                timestamp={timestamp} 
+                                timestamp={videoIdToTimestr(videoId)} 
                                 adminMode={adminMode} 
                                 videoId={videoId} 
                                 onDelete={handleDelete}
