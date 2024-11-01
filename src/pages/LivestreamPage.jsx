@@ -28,7 +28,7 @@ export default function LivestreamPage({ backendUrl }) {
 
     return <>
         <Container maxWidth="lg" sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '80%%' }}>
-            <Livestream livestreamUrl={backendUrl + 'video_feed'} />
+            <Livestream livestreamUrl={backendUrl + 'livestream'} />
             {typeof documentPictureInPicture !== "undefined"  && <Button
                 onClick={openPip}
                 sx={{ marginTop: '1em' }}

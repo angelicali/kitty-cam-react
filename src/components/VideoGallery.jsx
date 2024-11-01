@@ -17,7 +17,7 @@ export default function VideoGallery({ data, backendUrl, adminMode }) {
 
     const handleDelete = async (videoId) => {
         try {
-            const response = await fetch(`${backendUrl}video/${videoId}.mp4`, {
+            const response = await fetch(`${backendUrl}video/${videoId}`, {
                 method: 'DELETE',
             });
 
@@ -40,7 +40,7 @@ export default function VideoGallery({ data, backendUrl, adminMode }) {
     return <>
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '2em' }}>
             <div style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap' }}>
-                {videos.slice(0, numVideos).map(([timestamp, videoId]) => {
+                {videos.slice(0, numVideos).map((videoId) => {
                     return (
                         <div key={videoId + '-container'} style={{ margin: '.5em' }}>
                             <VideoHeader 
@@ -50,7 +50,7 @@ export default function VideoGallery({ data, backendUrl, adminMode }) {
                                 videoId={videoId} 
                                 onDelete={handleDelete}
                                 backendUrl={backendUrl} />
-                            <Video key={videoId} videoUrl={backendUrl + 'video/' + videoId + '.mp4'} />
+                            <Video key={videoId} videoUrl={backendUrl + 'video/' + videoId} />
                         </div>)
                 }
                 )}
