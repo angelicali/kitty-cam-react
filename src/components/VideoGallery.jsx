@@ -32,7 +32,7 @@ export default function VideoGallery({ data, backendUrl, adminMode }) {
             });
 
             if (response.ok) {
-                setVideos(videos.filter(([_, id]) => id !== videoId));
+                setVideos(videos.filter((id) => id !== videoId));
                 setSnackbarMessage("Video deleted");
                 setSnackbarOpen(true);
             } else if (response.status === 403) {
