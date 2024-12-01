@@ -5,10 +5,7 @@ export default function Livestream({ livestreamUrl }) {
     const [isRecording, setIsRecording] = useState(false);
 
     useEffect(() => {
-        const eventSource = new EventSource(livestreamUrl, {
-            headers: new Headers({
-                "ngrok-skip-browser-warning": "1234",
-            })});
+        const eventSource = new EventSource(livestreamUrl);
         eventSource.onmessage = (event) => {
             const data = JSON.parse(event.data);
             setIsRecording(data.is_recording);
