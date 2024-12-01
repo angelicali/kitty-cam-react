@@ -14,11 +14,13 @@ function videoIdToTimestr(videoId) {
     return `${year}-${month}-${day} ${hour}:${minute}`;
 }
 
-export default function VideoGallery({ data, backendUrl, adminMode }) {
+export default function VideoGallery({ videoList, heartList, backendUrl, adminMode }) {
     const [numVideos, setNumVideos] = useState(6);
-    const [videos, setVideos] = useState(data);
+    const [videos, setVideos] = useState(videoList);
     const [snackbarOpen, setSnackbarOpen] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState("");
+    const heartSet = new Set(heartList);
+    console.log(heartSet);
 
     const handleSnackbarClose = (event, reason) => {
         console.log(`snackbar close reason: ${reason}`);
@@ -47,6 +49,44 @@ export default function VideoGallery({ data, backendUrl, adminMode }) {
         }
     }
 
+    const updateFavorite = async (videoId, favoriteBool) => {
+        try {
+            if (favoriteBool) {
+                const response = await fetch(`${backendUrl}favorite/${videoId}`, {
+                    method: 'POST',
+                });
+
+                if (response.ok) {
+                    setSnackbarMessage("Added video to favorites");
+                    setSnackbarOpen(true);
+                } else if (response.status === 403) {
+                    setSnackbarMessage("Error: You're not authorized for marking/unmarking favorites.");
+                    setSnackbarOpen(true);
+                } else {
+                    setSnackbarMessage("Failed to heart video.");
+                    setSnackbarOpen(true);
+                }
+            } else {
+                const response = await fetch(`${backendUrl}favorite/${videoId}`, {
+                    method: 'DELETE',
+                });
+
+                if (response.ok) {
+                    setSnackbarMessage("Removed video from favorites");
+                    setSnackbarOpen(true);
+                } else if (response.status === 403) {
+                    setSnackbarMessage("Error: You're not authorized for marking/unmarking favorites.");
+                    setSnackbarOpen(true);
+                } else {
+                    setSnackbarMessage("Failed to un-heart video.");
+                    setSnackbarOpen(true);
+                }
+            }
+        } catch (error) {
+            console.error('An error occurred:', error);
+        }
+    }
+
     return <>
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '2em' }}>
             <div style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap' }}>
@@ -59,6 +99,8 @@ export default function VideoGallery({ data, backendUrl, adminMode }) {
                                 adminMode={adminMode} 
                                 videoId={videoId} 
                                 onDelete={handleDelete}
+                                isHearted={heartSet.has(videoId)}
+                                updateFavorite={updateFavorite}
                                 backendUrl={backendUrl} />
                             <Video key={videoId} videoUrl={backendUrl + 'video/' + videoId} />
                         </div>)

@@ -2,12 +2,14 @@ import {useState} from "react";
 import {  Typography } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 import InfoIcon from '@mui/icons-material/Info';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 import IconButton from '@mui/material/IconButton';
 import Popper from '@mui/material/Popper';
 import VideoLogCard from "./VideoLogCard";
 
-export default function VideoHeader({ timestamp, videoId, adminMode, onDelete, backendUrl }) {
+export default function VideoHeader({ timestamp, videoId, adminMode, isHearted, updateFavorite, onDelete, backendUrl }) {
     const [anchor, setAnchor] = useState(false);
+    const [favorite, setFavorite] = useState(isHearted);
 
     const handleInfoClick = (event) => {
         setAnchor(anchor ? null : event.currentTarget);
@@ -30,6 +32,21 @@ export default function VideoHeader({ timestamp, videoId, adminMode, onDelete, b
                         size="small"
                         onClick={handleInfoClick}>
                         <InfoIcon fontSize="inherit" />
+                    </IconButton>
+                    <IconButton
+                        aria-label="heart"
+                        size="small"
+                        onClick={() => {
+                            if (favorite) {
+                                updateFavorite(videoId, false);
+                                setFavorite(false);
+                            } else {
+                                updateFavorite(videoId, true);
+                                setFavorite(true);
+                            }
+                        }}
+                        color={favorite ? "warning":""}>
+                        <FavoriteIcon fontSize="inherit" />
                     </IconButton>
                 </>
                 )}

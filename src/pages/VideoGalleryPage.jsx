@@ -15,8 +15,8 @@ export default function VideoGalleryPage({ backendUrl }) {
         setAdminMode(event.target.checked);
     }
 
-    const { isPending, error, data } = useQuery({
-        queryKey: ['videoMetadata'],
+    const videoListQueryResults = useQuery({
+        queryKey: ['videoList'],
         queryFn: () => fetch(`${backendUrl}past-visits`, {
             headers: new Headers({
                 "ngrok-skip-browser-warning": "1234",
@@ -26,14 +26,24 @@ export default function VideoGalleryPage({ backendUrl }) {
         cacheTime: 1000 * 60 * 60 * 24 * 7, // 7 days
     })
 
-    if (isPending) return <Loading />;
+    const heartListQueryResults = useQuery({
+        queryKey: ['heartList'],
+        queryFn: () => fetch(`${backendUrl}favorites`, {
+            headers: new Headers({
+                "ngrok-skip-browser-warning": "1234",
+            })
+        },).then((res) => res.json(),),
+        staleTime: 1000 * 60 , // 1 minute
+        cacheTime: 1000 * 60 * 60 * 24 * 7, // 7 days
+    })
 
-    if (error) return 'An error has occurred: ' + error.message;
+    if (videoListQueryResults.isPending) return <Loading />;
 
+    if (videoListQueryResults.error) return 'An error has occurred: ' + error.message;
 
     return (
         <Container>
-            <VideoGallery data={data} backendUrl={backendUrl} adminMode={adminMode} />
+            <VideoGallery videoList={videoListQueryResults.data} heartList={heartListQueryResults.data} backendUrl={backendUrl} adminMode={adminMode} />
             <AdminSwitch onToggle={onAdminToggle} />
             {adminMode && <AnalyticsButton onClick={() => setAnalyticsModalOpen(true)} />}
             <AnalyticsModal open={analyticsModalOpen} handleClose={() => setAnalyticsModalOpen(false)} backendUrl={backendUrl} />
