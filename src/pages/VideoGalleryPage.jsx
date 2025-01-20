@@ -6,18 +6,23 @@ import Loading from "../components/Loading";
 import AnalyticsModal from "../components/AnalyticsModal";
 import { useQuery } from '@tanstack/react-query';
 import AnalyticsButton from "../components/AnalyticsButton";
+import { useSearchParams } from "react-router-dom";
 
 export default function VideoGalleryPage({ backendUrl }) {
     const [adminMode, setAdminMode] = useState(false);
     const [analyticsModalOpen, setAnalyticsModalOpen] = useState(false);
-
+    const [searchParams, setSearchParams] = useSearchParams();
+    const queryPrefix = searchParams.get('prefix');
+    const fetchDest = queryPrefix ? `${backendUrl}past-visits?prefix=${queryPrefix}`:`${backendUrl}past-visits`;
+    const queryKey = `videoMetadata-${queryPrefix}`;
+    
     const onAdminToggle = (event) => {
         setAdminMode(event.target.checked);
     }
 
     const { isPending, error, data } = useQuery({
-        queryKey: ['videoMetadata'],
-        queryFn: () => fetch(`${backendUrl}past-visits`, {
+        queryKey: [queryKey],
+        queryFn: () => fetch(fetchDest, {
             headers: new Headers({
                 "ngrok-skip-browser-warning": "1234",
             })
