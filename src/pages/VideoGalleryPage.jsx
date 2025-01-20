@@ -13,8 +13,15 @@ export default function VideoGalleryPage({ backendUrl }) {
     const [analyticsModalOpen, setAnalyticsModalOpen] = useState(false);
     const [searchParams, setSearchParams] = useSearchParams();
     const queryPrefix = searchParams.get('prefix');
-    const fetchDest = queryPrefix ? `${backendUrl}past-visits?prefix=${queryPrefix}`:`${backendUrl}past-visits`;
-    const queryKey = `videoMetadata-${queryPrefix}`;
+    let nVideos = searchParams.get('n');
+    if (nVideos === null) {
+      nVideos = 200
+    }
+    let fetchDest = backendUrl + 'past-visits?n=' + nVideos;
+    if (queryPrefix) {
+      fetchDest += '&prefix=' + queryPrefix;
+    }
+    const queryKey = `videoMetadata-${queryPrefix}-${nVideos}`;
     
     const onAdminToggle = (event) => {
         setAdminMode(event.target.checked);
